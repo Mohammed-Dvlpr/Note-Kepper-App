@@ -41,10 +41,13 @@ Update Operation: Update a note object and save it to database
 Delete Operation: Delete all note object from database
 
 Get number of note object in database
+
+Get the 'Map List' [List<Map>] and convert it to 'Note List' [List<Note>] in note_list Class
 */
 
 class DatabaseHelper {
-  static late DatabaseHelper _databaseHelper; // singleton databasehelper Object
+  static DatabaseHelper? _databaseHelper;
+  // singleton databasehelper Object
 
   static late Database _database; //  singleton Database Object
 
@@ -62,7 +65,7 @@ class DatabaseHelper {
       _databaseHelper = DatabaseHelper
           ._createInstance(); // This is executed only once , singleton object
     }
-    return _databaseHelper;
+    return _databaseHelper!;
   }
 
   Future<Database> get database async {
@@ -132,5 +135,17 @@ class DatabaseHelper {
         await db.rawQuery('SELECT COUNT (*) from $noteTable');
     int? result = Sqflite.firstIntValue(x);
     return result;
+  }
+
+  //Get the 'Map List' [List<Map>] and convert it to 'Note List' [List<Note>] in note_list Class
+  Future<List<Notes>> getNoteList() async {
+    var noteMapList = await getNoteMapList();
+    int count = noteMapList.length;
+
+    List<Notes> noteList = <Notes>[];
+    for (int i = 0; i < count; i++) {
+      noteList.add(Notes.formMapObject(noteMapList[i]));
+    }
+    return noteList;
   }
 }
