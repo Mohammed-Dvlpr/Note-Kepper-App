@@ -1,23 +1,27 @@
 import 'package:flutter/material.dart';
 
 class NoteDetail extends StatefulWidget {
-  const NoteDetail({super.key});
+  String appBarTitle;
+  NoteDetail({super.key, required this.appBarTitle});
 
   @override
-  State<NoteDetail> createState() => _NoteDetailState();
+  State<NoteDetail> createState() => _NoteDetailState(this.appBarTitle);
 }
 
 class _NoteDetailState extends State<NoteDetail> {
   static var _priorities = ['Hight', 'Low'];
   TextEditingController titleController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
+  String appBarTitle;
+  _NoteDetailState(this.appBarTitle);
 
   @override
   Widget build(BuildContext context) {
     TextStyle? textStyle = Theme.of(context).textTheme.titleSmall;
     return Scaffold(
       appBar: AppBar(
-        title: Text('Note Detail'),
+        backgroundColor: Theme.of(context).primaryColor,
+        title: Text(appBarTitle),
       ),
       body: Padding(
         padding: const EdgeInsets.only(top: 15.0, left: 10.0, right: 10.0),
